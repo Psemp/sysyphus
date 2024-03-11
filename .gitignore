@@ -6,7 +6,17 @@ __pycache__/
 # C extensions
 *.so
 
+# Mac specific :
+.DS_Store
+
+# linter
+.flake8
+
+# misc files and folders :
+notebooks/
+
 # Distribution / packaging
+__pycache__/
 .Python
 build/
 develop-eggs/
