@@ -16,8 +16,9 @@ def get_remote_data(as_pd: bool = True) -> pd.DataFrame | None:
         - pandas.DataFrame: The loaded dataset.
     """
 
-    url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.pkl"
-    response = requests.get(url)
+    pkl_url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.pkl"
+    # csv_url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.csv"
+    response = requests.get(pkl_url)
 
     if response.status_code == 200:
         data = io.BytesIO(response.content)

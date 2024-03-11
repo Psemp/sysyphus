@@ -1,7 +1,10 @@
 # import requests
 # import pandas as pd
 
-from sysyphus.scripts import remote_load, search
+import warnings
+
+from sysyphus.scripts import remote_load
+from sysyphus.scripts import search
 
 
 class Boulder:
@@ -10,12 +13,41 @@ class Boulder:
             raise ConnectionError("The application has no access to the internet")
         self.sy_df = remote_load.get_remote_data(as_pd=True)
 
-    def make_search(self, search_kind: str, query: str, numeric_range: int | tuple | None = None) -> None:
-        match search_kind:
-            case "name":
-                result = search.search_by_name(df=self.sy_df, name_query=query, numeric_range=numeric_range)
-            case "":
-                ...
+    def make_search(self) -> None:
+        """
+        Prompts the users for search parameters (the user can leave the prompts blank to ignore some).
+        Uses the filters to get the meteorites matching the user's request. Returns the dataframe and
+        keeps the search in memory to refine and request on in later stages.
+
+        Returns:
+        - result : a pd.DataFrame: A filtered DataFrame containing meteorite entries that match the specified
+        search parameters. If no parameters are matched, an empty DataFrame is returned.
+        """
+
+        result = self.sy_df.copy(deep=True)
+        search_parameters = search.search_prompts()
+
+        if len(search_parameters.keys()) < 1:
+            raise ValueError("No search parameters provided, please retry.")
+
+        if "namespace" in search_parameters.keys():
+            if "numeric_range" in search_parameters.keys():
+                numeric_range = search_parameters["numeric_range"]
+            else:
+                numeric_range = None
+            result = search.search_by_name(
+                df=result, name_query=search_parameters["namespace"], numeric_range=numeric_range
+                )
+        if "country" in search_parameters.keys():
+            result = search.search_by_country(df=result, query=search_parameters["country"])
+        if "type" in search_parameters.keys():
+            result = search.search_by_type(df=result, query=search_parameters["type"])
+
+        if result.__len__() == 0:
+            warnings.warn(
+                message=f"No meteorites found for the requested search parameters:\n{search_parameters}")
+        if result.__len__() > 0:
+            self.selected_meteorites = result
 
         return result
 
