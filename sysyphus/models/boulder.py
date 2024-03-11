@@ -8,10 +8,16 @@ from sysyphus.scripts import search
 
 
 class Boulder:
-    def __init__(self) -> None:
+    def __init__(self, use_json: bool = True) -> None:
+        """
+        Initialises the Boulder object, loads remote data from
+        https://github.com/Psemp/sysyphus_notebooks , either pkl or json.
+        Json seems faster but pkl is still an option just in case.
+        """
+
         if not remote_load.check_internet_connection():
             raise ConnectionError("The application has no access to the internet")
-        self.sy_df = remote_load.get_remote_data(as_pd=True)
+        self.sy_df = remote_load.get_remote_data(as_pd=True, use_json=use_json)
 
     def make_search(self) -> None:
         """

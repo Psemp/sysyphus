@@ -4,7 +4,7 @@ import io
 import pandas as pd
 
 
-def get_remote_data(as_pd: bool = True) -> pd.DataFrame | None:
+def get_remote_data(as_pd: bool = True, use_json: bool = True) -> pd.DataFrame | None:
     """
     Fetches a remote dataset from a the remote metbull monthly clone data
     and loads it into a pandas DataFrame.
@@ -16,13 +16,19 @@ def get_remote_data(as_pd: bool = True) -> pd.DataFrame | None:
         - pandas.DataFrame: The loaded dataset.
     """
 
-    pkl_url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.pkl"
-    # csv_url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.csv"
-    response = requests.get(pkl_url)
+    if not use_json:
+        url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.pkl"
+    elif use_json:
+        url = "https://github.com/Psemp/sysyphus_notebooks/raw/main/datasets/metbull_data.json"
+
+    response = requests.get(url=url)
 
     if response.status_code == 200:
         data = io.BytesIO(response.content)
-        df = pd.read_pickle(data)
+        if not use_json:
+            df = pd.read_pickle(data)
+        else:
+            df = pd.read_json(data, orient="records", lines=True)
         return df
     else:
         raise Exception(f"Failed to fetch dataset: {response.status_code}")
