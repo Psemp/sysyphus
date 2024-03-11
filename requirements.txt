@@ -2,3 +2,5 @@ pandas
 numpy
 beautifulsoup4
 requests
+python-dotenv
+tqdm

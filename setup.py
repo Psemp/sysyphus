@@ -12,6 +12,8 @@ setup(
         "beautifulsoup4",
         "re",
         "requests",
+        "python-dotenv",
+        "tqdm",
     ],
     description="""Structured meteorite data access using MetBull: Query, filter, and analyze with ease.""",
     long_description=open("README.md").read(),
