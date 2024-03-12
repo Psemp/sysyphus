@@ -17,7 +17,7 @@ class Boulder:
 
         if not remote_load.check_internet_connection():
             raise ConnectionError("The application has no access to the internet")
-        self.sy_df = remote_load.get_remote_data(as_pd=True, use_json=use_json)
+        self.sy_df = remote_load.get_remote_data(as_pd=True, use_json=True)
 
     def make_search(self) -> None:
         """
