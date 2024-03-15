@@ -63,7 +63,12 @@ class Boulder:
             return result
 
     def validate_selection(self):
-        if len(self.selected_meteorites) > 200:
+        """
+        Validates and instanciates the selection of the meteorites contained in `self.selected_meteorites` dataframe.
+        If the sample is higher than 200, prompts a warning message and invites the user to refine the query or
+        potentially face longer loading times.
+        """
+        if len(self.selected_meteorites) >= 200:
             warnings.warn(f"You have requested information on {len(self.selected_meteorites)} meteorites. "
                           "This may stress the server and the app. Proceed?")
 
@@ -81,6 +86,10 @@ class Boulder:
                     print("Invalid input. Please enter Y|Yes to proceed or N|No|Blank to abort.")
 
     def dump_search(self):
+        """
+        Deletes the attributes `self.selected_meteorites` & `self.meteorite_objects` - useful for a fresh start
+        and freeing up memory. Error handling will skip the non initialized attributes.
+        """
         try:
             del self.selected_meteorites
         except AttributeError:
