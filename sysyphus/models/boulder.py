@@ -1,10 +1,10 @@
 # import requests
-# import pandas as pd
+import pandas as pd
 
 import warnings
 
-from sysyphus.scripts import remote_load
-from sysyphus.scripts import search
+from sysyphus.scripts import remote_load, search
+from sysyphus.scripts import user_requests as u_requests
 
 
 class Boulder:
@@ -19,7 +19,7 @@ class Boulder:
             raise ConnectionError("The application has no access to the internet")
         self.sy_df = remote_load.get_remote_data(as_pd=True, use_json=True)
 
-    def make_search(self) -> None:
+    def make_search(self) -> pd.DataFrame:
         """
         Prompts the users for search parameters (the user can leave the prompts blank to ignore some).
         Uses the filters to get the meteorites matching the user's request. Returns the dataframe and
@@ -51,14 +51,17 @@ class Boulder:
 
         if result.__len__() == 0:
             warnings.warn(
-                message=f"No meteorites found for the requested search parameters:\n{search_parameters}")
+                message=f"No meteorite found for the requested search parameters:\n{search_parameters}")
         if result.__len__() > 0:
             self.selected_meteorites = result
 
         return result
 
+    def validate_selection(self):
+        self.meteorite_objects = u_requests.make_meteorites(selected_meteorites=self.selected_meteorites)
+
     def __repr__(self) -> str:
-        return f"Boulder(sy_df={self.sy_df.shape})"  # Example: shows the shape of the DataFrame
+        return f"Boulder(sy_df={self.sy_df.shape})"
 
     def __str__(self) -> str:
         return f"This Boulder object contains {self.sy_df.shape[0]} rows of meteorite data."
