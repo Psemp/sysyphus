@@ -1,6 +1,8 @@
-pandas
-numpy
 beautifulsoup4
-requests
-python-dotenv
+numpy
+pandas
+pytest
+Requests
+setuptools
+setuptools
 tqdm

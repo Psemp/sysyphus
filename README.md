@@ -16,3 +16,7 @@ with open("sysyphus/utils/country_list.json", "w") as f:
 with open("sysyphus/utils/types_list.json", "w") as f:
     json.dump(type_list, f)
 ```
+
+## Acknowledgements
+
+This project has benefited greatly from the assistance of various tools. The unit tests were generated with the help of [GitHub Copilot](https://copilot.github.com/), an AI-powered code completion tool. Additionally, many of the regular expressions used throughout the codebase were created using [AutoRegex](https://www.autoregex.xyz/), a tool for automatically generating regular expressions. I express my gratitude to the developers of these tools for their contribution to the development process.

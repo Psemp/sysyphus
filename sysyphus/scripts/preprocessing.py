@@ -11,7 +11,7 @@ def dms_to_decimal(dms: str) -> float:
     # On the off chance its already in a decimal format :
     try:
         return float(dms)
-    except ValueError:
+    except (ValueError, TypeError):
         if dms is None:
             return np.nan
 

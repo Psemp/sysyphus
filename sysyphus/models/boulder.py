@@ -38,7 +38,11 @@ class Boulder:
         """
 
         result = self.sy_df.copy(deep=True)
-        search_parameters = search.search_prompts()
+        search_parameters = {
+            "namespace": "meteorite_name",
+            "country": "USA",
+            "type": "Iron"
+        }
 
         if len(search_parameters.keys()) < 1:
             raise ValueError("No search parameters provided, please retry.")
@@ -119,6 +123,9 @@ class Boulder:
         Args:
         - rate_limiter : maximum concurrent requests (hard ceilling set to 25)
         """
+
+        if not isinstance(rate_limiter, int):
+            raise ValueError("rate_limiter should be of type int")
 
         if rate_limiter < 1:
             print("Invalid rate_limiter value. Setting to default value of 4.")

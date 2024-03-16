@@ -1,14 +1,14 @@
 import pandas as pd
 
 
-def search_by_name(df, name_query, numeric_range: int | tuple = None):
+def search_by_name(df, name_query, numeric_range: int | list = None):
     """
     Searches for meteorites based on a name query (ignoring digits in the name) and an optional numeric range.
 
     Args:
     - df (pd.DataFrame): DataFrame containing meteorite data.
     - name_query (str): The character part of the meteorite names to match.
-    - numeric_range (tuple, optional): A tuple specifying the start and end of the numeric range for filtering.
+    - numeric_range (list, optional): A list specifying the start and end of the numeric range for filtering.
 
     Returns:
     - pd.DataFrame: DataFrame containing the search results.
