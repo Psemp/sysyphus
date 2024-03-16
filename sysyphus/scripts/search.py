@@ -19,8 +19,9 @@ def search_by_name(df, name_query, numeric_range: int | tuple = None):
         ]
 
     # Further filter by numeric range if specified
-    if isinstance(numeric_range, tuple):
-        start, end = numeric_range
+    if isinstance(numeric_range, list):
+        start = numeric_range[0]
+        end = numeric_range[1]
         result = name_filtered[(name_filtered["numeric_id"] >= start) & (name_filtered["numeric_id"] <= end)]
     elif isinstance(numeric_range, int):
         result = name_filtered[name_filtered["numeric_id"] == numeric_range]

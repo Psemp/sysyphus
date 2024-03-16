@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from bs4 import BeautifulSoup
-from scripts.preprocessing import handle_coordinates, remove_uncertainty
+from sysyphus.scripts.preprocessing import handle_coordinates, remove_uncertainty
 
 
 class Meteorite:

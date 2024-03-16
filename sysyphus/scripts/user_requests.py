@@ -2,10 +2,10 @@ import concurrent.futures
 import pandas as pd
 
 from tqdm import tqdm
-from models.meteorite import Meteorite
+from sysyphus.models.meteorite import Meteorite
 
 
-def request_selected(meteorites: list, rate_limiter: int = 25) -> None:
+def request_selected(meteorites: list, rate_limiter: int = 25, missing_verbose: bool = False) -> None:
     """
     Function:
         - Uses threading to request all the meteorites in the meteorites list in parallel.

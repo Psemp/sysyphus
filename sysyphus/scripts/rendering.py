@@ -4,21 +4,20 @@ from sysyphus.models.meteorite import Meteorite
 
 
 def show_properties(
-        meteorite_list: list, omit: list = [], as_pd: bool = True) -> dict | pd.DataFrame:
+        meteorite_list: list, ommit: list = [], as_pd: bool = True) -> dict | pd.DataFrame:
     """
     Function:
     - Collects and displays properties of meteorite objects in a structured format.
 
     - Iterates through a list of Meteorite objects, collecting specified properties
-    for each. The properties to be collected can be customized via the `omit` list.
+    for each. The properties to be collected can be customized via the `ommit` list.
 
     - The output can be formatted as either a pandas DataFrame or a standard Python dictionary.
 
     Args:
         - meteorite_list (list): A list of Meteorite objects whose properties are to be displayed.
-        - omit (list): A list of property names (strings) to be omitted from the output.
+        - ommit (list): A list of property names (strings) to be ommitted from the output.
         - as_pd (bool): If True, returns the data as a pandas DataFrame; otherwise, returns a dictionary.
-        - get_duds : whether or not to give the number of duds (main table not found)
 
     Returns:
         pd.DataFrame | dict: A pandas DataFrame or dictionary containing the collected meteorite properties,
@@ -28,7 +27,6 @@ def show_properties(
     Raises:
         TypeError: If any object in `meteorite_list` is not an instance of the Meteorite class.
     """
-    duds = 0
 
     for meteorite in meteorite_list:
         if not isinstance(meteorite, Meteorite):
@@ -39,12 +37,10 @@ def show_properties(
             "mag_sus", "fs_content", "wo_content", "fa_content", "tsm", "pieces", "type_spec_loc"
             ]
 
-    columns = [col for col in columns if col not in omit]
+    columns = [col for col in columns if col not in ommit]
     data_dict = {property: [] for property in columns}
 
     for meteorite in meteorite_list:
-        if meteorite.table_soup is None:
-            duds += 1
         for property in columns:
             value = getattr(meteorite, property, None)
             data_dict[property].append(value)
