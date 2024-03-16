@@ -125,17 +125,15 @@ class Boulder:
         """
 
         if not isinstance(rate_limiter, int):
-            raise ValueError("rate_limiter should be of type int")
-
-        if rate_limiter < 1:
-            print("Invalid rate_limiter value. Setting to default value of 4.")
-            rate_limiter = 4
-
-        if not isinstance(rate_limiter, int):
             try:
                 rate_limiter = int(rate_limiter)
             except ValueError:
                 raise ValueError("rate_limiter should be of type int")
+        if rate_limiter < 1:
+            print("Invalid rate_limiter value. Setting to default value of 4.")
+            rate_limiter = 4
+
+        self.validate_selection()  # The function being called separetely is an unnecessary extra step
 
         u_requests.request_selected(meteorites=self.met_list, rate_limiter=rate_limiter)
         self.made_requests = True
@@ -178,6 +176,40 @@ class Boulder:
         elif not hasattr(self, "met_list"):
             err_message = "No search & selection were made - use this method once selection and obj. creation are made"
             raise AttributeError(err_message)
+
+    def save_search(self, filepath: str, file_format: str = "csv") -> None:
+        """
+        Function:
+        - Saves the search results to a file in the specified format (CSV by default).
+        - The file is saved in the specified location with the specified name.
+
+        Args:
+        - filepath (str): The path to the directory where the file should be saved.
+        - file_format (str): The format in which the file should be saved. Default is "csv".
+        Options are csv, pickle, json & parquet.
+
+        Returns:
+        - None
+        """
+
+        if not hasattr(self, "df_searched"):
+            raise AttributeError("No search results to save. Please perform a search and display the results first.")
+
+        if file_format not in ["csv", "pickle", "json", "parquet"]:
+            raise ValueError(f"Invalid file format '{file_format}'. Options are csv, pickle, json & parquet.")
+
+        try:
+            if file_format == "csv":
+                self.df_searched.to_csv(filepath, header=None, index=False)
+            elif file_format == "pickle":
+                self.df_searched.to_pickle(filepath)
+            elif file_format == "json":
+                self.df_searched.to_json(filepath, orient="records", lines=True)
+            elif file_format == "parquet":
+                self.df_searched.to_parquet(filepath)
+            print(f"file saved as {file_format} at {filepath}")
+        except Exception as e:
+            print(f"An error occurred while saving the file: {e}")
 
     def __repr__(self) -> str:
         return f"Boulder(sy_df={self.sy_df.shape})"
