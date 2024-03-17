@@ -4,5 +4,4 @@ pandas
 pytest
 Requests
 setuptools
-setuptools
 tqdm
