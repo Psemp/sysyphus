@@ -183,6 +183,8 @@ class Boulder:
         - Saves the search results to a file in the specified format (CSV by default).
         - The file is saved in the specified location with the specified name.
 
+        Supported formats : csv, pickle, json, parquet
+
         Args:
         - filepath (str): The path to the directory where the file should be saved.
         - file_format (str): The format in which the file should be saved. Default is "csv".
