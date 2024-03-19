@@ -1,5 +1,5 @@
 # Sysyphus
-![sisyphus got tired](img/sisyphus_got_tired.png)
+![sisyphus got tired](img/sysyphus_thumbnail_txt.png)
 ## Introduction
 `Sysyphus` is a Python package that simplifies access to the MetBull database for anyone interested in meteorite data. It's intended for scientists, educators, and meteorite enthusiasts who need an easier way to query, filter, and analyze information from one of the largest meteorite databases available.
 
@@ -131,3 +131,4 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/Psemp/sysy
 - [GitHub Copilot](https://copilot.github.com/) (tests)
 - [AutoRegex](https://www.autoregex.xyz/) (most of the complex iterative regex filters)
 - GPT4, for both the migraines and the helpful synthetic hand
+- Image made using Dall-E inspired by a meme
