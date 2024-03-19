@@ -38,11 +38,7 @@ class Boulder:
         """
 
         result = self.sy_df.copy(deep=True)
-        search_parameters = {
-            "namespace": "meteorite_name",
-            "country": "USA",
-            "type": "Iron"
-        }
+        search_parameters = search.search_prompts()
 
         if len(search_parameters.keys()) < 1:
             raise ValueError("No search parameters provided, please retry.")
@@ -202,13 +198,13 @@ class Boulder:
 
         try:
             if file_format == "csv":
-                self.df_searched.to_csv(filepath, header=None, index=False)
+                self.df_searched.to_csv(f"{filepath}.csv", header=None, index=False)
             elif file_format == "pickle":
-                self.df_searched.to_pickle(filepath)
+                self.df_searched.to_pickle(f"{filepath}.pkl")
             elif file_format == "json":
-                self.df_searched.to_json(filepath, orient="records", lines=True)
+                self.df_searched.to_json(f"{filepath}.json", orient="records", lines=True)
             elif file_format == "parquet":
-                self.df_searched.to_parquet(filepath)
+                self.df_searched.to_parquet(f"{filepath}.parquet")
             print(f"file saved as {file_format} at {filepath}")
         except Exception as e:
             print(f"An error occurred while saving the file: {e}")
