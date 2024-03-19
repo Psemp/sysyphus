@@ -30,11 +30,28 @@ The install requires python3.10 or newer (mainly because of pep604). If `python3
 
 The [setup requirements (click me)](https://github.com/Psemp/sysyphus/blob/main/setup.py) are designed to be as light as possible and packages that are more often than not in most data driven projects.
 
+**VIA PIP**
 ```bash
 pip install sysyphus
 ```
 *Conda release planned as well*
 
+### <u>Updating Python Version</u>
+<br>
+<details>
+  <summary>Click to expand</summary>
+
+If your current Python version is below 3.10 and you wish to use Sysyphus, you will need to update your Python installation. Below are links to official guides for updating Python, whether you're using the standard Python installation or managing your Python versions with Anaconda.
+
+#### For Standard Python Installation:
+Visit [Python's official download page](https://www.python.org/downloads/) for the latest version and follow the instructions for your operating system. Make sure to download a version that is 3.10 or newer.
+
+#### For Anaconda Users:
+If you're using Anaconda to manage your Python environments, you can update Python within a specific conda environment by running:
+```bash
+conda update python
+```
+</details>
 
 ## Usage
 
@@ -45,21 +62,50 @@ Though Boulder offers a high-level abstraction for ease of use, Sysyphus is flex
 
 Users can directly utilize its Meteorite class and other methods for more granular control or integration into broader projects.
 
+### Typical use case : (more in depth in notebook I will try not to forget to upload)
 
+```python
+import sysyphus
 
-This will be written as soon as the tests are written and valid.
+boulder = sysyphus.Boulder()  # use_json=True by default
 
-\```python
-\```
+>>> cnx: OK
+>>> remote content: Loaded
+
+boulder.make_search()  # verbose_results=True by default
+
+>>> Enter name to filter dataset (min. 2 chars):
+<<< Catalina
+>>> Enter numeric ID range (e.g., 100,200):
+<<< 550,600 #  Order doesn't really matter, the script sorts it
+>>> Refine search by fall country: 
+<<< chile  # caps don't matter
+>>> Refine results by types:
+<<<   # search terms can be left blank
+>>> # dataframe with the meteorites fitting the selection, head and tail if too long for default (pandas)
+
+boulder.request_metbull(rate_limiter=25)  # max = 25, will auto lower to len(selection) if rate > len(selection), no useless threads
+>>> # TQDM progress bar, ETA & stats
+
+boulder.display_search(as_pandas=True)  # omit to ignore certain cols, as_pandas : True -> pd.Df, False : python Dict
+
+>>> # displays the search results in the requested format with ignored cols if any
+
+file_name = "met_search"
+format = "csv"
+
+boulder.save_search(filepath=file_name, file_format=format)
+>>> file saved as csv at met_search  # extension added
+```
 
 ## Advanced Features
-Elaborate on more complex features or usage scenarios that might interest advanced users.
+*Cf. Notebook that i'll try not to forget and link here*
 
 ## Credits
 
-Sysyphus is made possible thanks to the data provided by MetBull and the contributions from our community. <br>We appreciate every piece of input, code, or feedback we've received.
+Sysyphus is made possible thanks to the data provided by MetBull and the contributions from our community. <br>I appreciate every piece of input, code, or feedback I've received.
 
-We're especially thankful to MetBull for allowing access to their meteorite data, which is essential for Sysyphus's functionality.
+I am especially thankful to MetBull for allowing access to their meteorite data, which is essential for Sysyphus's functionality.
 
 **While using Sysyphus, we encourage you to:**
 
@@ -84,3 +130,4 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/Psemp/sysy
 
 - [GitHub Copilot](https://copilot.github.com/) (tests)
 - [AutoRegex](https://www.autoregex.xyz/) (most of the complex iterative regex filters)
+- GPT4, for both the migraines and the helpful synthetic hand
