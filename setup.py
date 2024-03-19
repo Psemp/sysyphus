@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="sysphus",
+    name="sysyphus",
     version="0.0.1",
     author="Pierre Sempéré",
     author_email="pierre.sempere.01@gmail.com",

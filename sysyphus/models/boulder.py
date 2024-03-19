@@ -9,7 +9,34 @@ from sysyphus.scripts import user_requests as u_requests
 class Boulder:
     def __init__(self, use_json: bool = True) -> None:
         """
-        Please write me
+        Initializes the Boulder object for streamlined access to meteorite data. This object checks for an internet
+        connection and loads the latest meteorite dataset, available as JSON or pickle.
+        The dataset is a prepared clone of parsed data from the MetBull database, updated monthly.
+
+        The Boulder class simplifies data analysis and exploration, offering methods to search, refine,
+        and request detailed meteorite information. It's designed for ease of use, enabling efficient data
+        handling and analysis without needing extensive programming knowledge.
+
+        Attributes:
+        - sy_df (pd.DataFrame): Holds the meteorite data.
+        - made_requests (bool): Indicates if detailed data requests have been made.
+        - selected_meteorites (pd.DataFrame): Holds the user selection pre request on metbull,
+        refine directly for better control
+        - met_list (list): Holds the meteorite objects created from the selected_meteorites DataFrame.
+        - df_searched (pd.DataFrame): Holds the meteorite properties after requests on metbull have been made.
+        It would contain all of the publicly available info on the MetBull for each selected met.
+
+        Methods:
+        - make_search: Prompts the user for search parameters and returns a filtered DataFrame.
+        - validate_selection: Validates and instanciates the selection contained in `self.selected_meteorites`.
+        - dump_search: Deletes the attributes `self.selected_meteorites` & `self.meteorite_objects`
+        useful for a fresh start and freeing up memory.
+        - request_metbull: Uses threading to request all the meteorites in the meteorites list in parallel.
+        - display_search: Collects and displays properties of meteorite objects in a structured format.
+        - save_search: Saves the search results to a file in the specified format (CSV by default).
+
+        Prefer JSON for quicker data loading and processing. Boulder serves as the primary tool within the package,
+        aimed at facilitating the exploration and analysis of meteorite data.
         """
 
         if not remote_load.check_internet_connection():
@@ -38,11 +65,7 @@ class Boulder:
         """
 
         result = self.sy_df.copy(deep=True)
-        search_parameters = {
-            "namespace": "meteorite_name",
-            "country": "USA",
-            "type": "Iron"
-        }
+        search_parameters = search.search_prompts()
 
         if len(search_parameters.keys()) < 1:
             raise ValueError("No search parameters provided, please retry.")
@@ -135,6 +158,9 @@ class Boulder:
 
         self.validate_selection()  # The function being called separetely is an unnecessary extra step
 
+        if rate_limiter > len(self.met_list):
+            rate_limiter = len(self.met_list)  # limiter not higher than total search : no extra threads
+
         u_requests.request_selected(meteorites=self.met_list, rate_limiter=rate_limiter)
         self.made_requests = True
 
@@ -202,13 +228,13 @@ class Boulder:
 
         try:
             if file_format == "csv":
-                self.df_searched.to_csv(filepath, header=None, index=False)
+                self.df_searched.to_csv(f"{filepath}.csv", index=True)
             elif file_format == "pickle":
-                self.df_searched.to_pickle(filepath)
+                self.df_searched.to_pickle(f"{filepath}.pkl")
             elif file_format == "json":
-                self.df_searched.to_json(filepath, orient="records", lines=True)
+                self.df_searched.to_json(f"{filepath}.json", orient="records", lines=True)
             elif file_format == "parquet":
-                self.df_searched.to_parquet(filepath)
+                self.df_searched.to_parquet(f"{filepath}.parquet")
             print(f"file saved as {file_format} at {filepath}")
         except Exception as e:
             print(f"An error occurred while saving the file: {e}")
