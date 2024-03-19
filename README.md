@@ -1,5 +1,5 @@
 # Sysyphus
-![sisyphus got tired](img/sisyphus_got_tired.png)
+![sisyphus got tired](img/sysyphus_thumbnail.jpg)
 ## Introduction
 `Sysyphus` is a Python package that simplifies access to the MetBull database for anyone interested in meteorite data. It's intended for scientists, educators, and meteorite enthusiasts who need an easier way to query, filter, and analyze information from one of the largest meteorite databases available.
 
