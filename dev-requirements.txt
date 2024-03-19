@@ -5,5 +5,7 @@ pytest
 Requests
 setuptools
 tqdm
+pytest
 pytest-cov
-flake8
+twine
+black
