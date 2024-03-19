@@ -198,7 +198,7 @@ class Boulder:
 
         try:
             if file_format == "csv":
-                self.df_searched.to_csv(f"{filepath}.csv", header=None, index=False)
+                self.df_searched.to_csv(f"{filepath}.csv", index=True)
             elif file_format == "pickle":
                 self.df_searched.to_pickle(f"{filepath}.pkl")
             elif file_format == "json":
