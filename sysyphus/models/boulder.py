@@ -38,11 +38,7 @@ class Boulder:
         """
 
         result = self.sy_df.copy(deep=True)
-        search_parameters = {
-            "namespace": "meteorite_name",
-            "country": "USA",
-            "type": "Iron"
-        }
+        search_parameters = search.search_prompts()
 
         if len(search_parameters.keys()) < 1:
             raise ValueError("No search parameters provided, please retry.")
