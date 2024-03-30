@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 
 def search_by_name(df, name_query, numeric_range: int | list = None):
@@ -85,6 +86,38 @@ def validate_numeric_range(num_range: str) -> tuple:
     return None, "Numeric ID range must be one or two integers (e.g., 100 or 100,200)."
 
 
+def validate_country(country: str, validation_file: str) -> tuple:
+    """Checks if country is valid, returning the country and an error message, if relevant."""
+    with open(file=validation_file, mode="r") as file:
+        countries = json.load(file)
+
+    country = country.lower().strip()
+    if len(country) > 0:
+        if country.lower() in countries:
+            return country, None
+        else:
+            return None, "Country not found in the list of countries. Check entire list in utils"
+
+    elif len(country) == 0:
+        return None, "blank selected"
+
+
+def validate_mtype(mtype: str, validation_file: str) -> tuple:
+    """Checks if meteorite type is valid, returning the mtype and an error message, if relevant."""
+    with open(file=validation_file, mode="r") as file:
+        countries = json.load(file)
+
+    mtype = mtype.lower().strip()
+    if len(mtype) > 0:
+        if mtype.lower() in countries:
+            return mtype.lower(), None
+        else:
+            return None, "mtype not found in the list of types. Check entire lists utils"
+
+    elif len(mtype) == 0:
+        return None, "blank selected"
+
+
 def get_prompt(prompt_message: str, validation_function: callable = None) -> str | tuple | None:
     """
     Asks for user input and validates it. Re-prompts if the validation fails
@@ -101,7 +134,15 @@ def get_prompt(prompt_message: str, validation_function: callable = None) -> str
         if not user_input:  # Skips
             return None
         if validation_function:
-            validation_result, error_message = validation_function(user_input)
+            if validation_function == validate_country:
+                validation_file = "sysyphus/utils/country_validation.json"
+                validation_result, error_message = validation_function(user_input, validation_file)
+            elif validation_function == validate_mtype:
+                validation_file = "sysyphus/utils/type_validation.json"
+                validation_result, error_message = validation_function(user_input, validation_file)
+            else:
+                validation_result, error_message = validation_function(user_input)
+
             if validation_result is not None:
                 return validation_result
             else:
@@ -117,8 +158,8 @@ def search_prompts() -> dict:
     prompts_and_validation = {
         "namespace": ("Enter name to filter dataset (min. 2 chars): ", validate_name),
         "numeric_range": ("Enter numeric ID range (e.g., 100,200): ", validate_numeric_range),
-        "country": ("Refine search by fall country: ", None),
-        "type": ("Refine results by types: ", None)
+        "country": ("Refine search by fall country: ", validate_country),
+        "type": ("Refine results by types: ", validate_mtype)
     }
 
     user_inputs = {}

@@ -7,6 +7,8 @@ from sysyphus.scripts.search import (
     search_by_country,
     validate_name,
     validate_numeric_range,
+    validate_country,
+    validate_mtype
 )
 
 
@@ -88,3 +90,37 @@ def test_validate_numeric_range():
     num_range, error = validate_numeric_range("100,abc")
     assert num_range is None
     assert "Numeric ID range must be one or two integers" in error
+
+
+def test_validate_country():
+    # Test case 1: Valid country
+    country, message = validate_country("Chile", validation_file="sysyphus/utils/country_validation.json")
+    assert country == "chile"
+    assert message is None
+
+    # Test case 2: Invalid country (not in the list of countries)
+    country, message = validate_country("This shouldnt work", validation_file="sysyphus/utils/country_validation.json")
+    assert country is None
+    assert "Country not found in the list of countries" in message
+
+    # Test case 3: Blank country
+    country, message = validate_country("", validation_file="sysyphus/utils/country_validation.json")
+    assert country is None
+    assert "blank selected" in message
+
+
+def test_validate_mtype():
+    # Test case 1: Valid mtype
+    mtype, message = validate_mtype("h5", validation_file="sysyphus/utils/type_validation.json")
+    assert mtype == "h5"
+    assert message is None
+
+    # Test case 2: Invalid mtype (not in the list of countries)
+    mtype, message = validate_mtype("This shouldnt work either", validation_file="sysyphus/utils/type_validation.json")
+    assert mtype is None
+    assert "mtype not found in the list of types. Check entire lists utils" in message
+
+    # Test case 3: Blank mtype
+    mtype, message = validate_mtype("", validation_file="sysyphus/utils/type_validation.json")
+    assert mtype is None
+    assert "blank selected" in message

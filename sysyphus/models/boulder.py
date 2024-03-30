@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 import warnings
 
@@ -183,6 +184,10 @@ class Boulder:
 
         if hasattr(self, "met_list") and self.made_requests:
             self.df_searched = rendering.show_properties(meteorite_list=self.met_list, as_pd=as_pandas, ommit=ommit)
+            try:
+                self.df_searched["mass"] = self.df_searched["mass"].astype(np.float32)
+            except AttributeError:
+                pass
             return self.df_searched
         elif hasattr(self, "met_list") and not self.made_requests:
             warnings.warn(message="Selection made but no requests have been made on metbull server")
