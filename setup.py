@@ -2,16 +2,15 @@ from setuptools import setup, find_packages
 
 setup(
     name="sysyphus",
-    version="0.0.3",
+    version="0.1.0",
     author="Pierre Sempéré",
     author_email="pierre.sempere.01@gmail.com",
     packages=find_packages(),
     install_requires=[
-        "numpy",
         "pandas",
+        "numpy",
         "beautifulsoup4",
         "requests",
-        "python-dotenv",
         "tqdm",
     ],
     python_requires=">=3.10",
