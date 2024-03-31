@@ -55,6 +55,7 @@ class Meteorite:
         self.property_map = {
             "Latitude:": "latitude",
             "Longitude:": "longitude",
+            "Mass": "mass",
             "Weathering grade:": "weathering_g",
             "Magnetic suscept.:": "mag_sus",
             "Ferrosilite (mol%):": "fs_content",
@@ -134,7 +135,7 @@ class Meteorite:
 
         property_dict = {
                 "Name": self.name, "Year": self.fall_year, "Coordinates (dec)": self.coordinates,
-                "Weathering grade": self.weathering_g, "Magnetic susceptibility": self.mag_sus,
+                "Mass": self.mass, "Weathering grade": self.weathering_g, "Magnetic susceptibility": self.mag_sus,
                 "Ferrosilite": self.fs_content, "Fayalite": self.fa_content,
                 "Type specific mass": self.tsm, "Pieces": self.pieces,
                 "Location of the subsample": self.type_spec_loc, "Shock stage": self.shock_stage

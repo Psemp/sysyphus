@@ -13,7 +13,7 @@ __pycache__/
 .flake8
 
 # misc files and folders :
-notebooks/
+notebooks_ignore/
 t_env/
 
 # Distribution / packaging

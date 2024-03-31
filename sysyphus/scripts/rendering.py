@@ -32,9 +32,10 @@ def show_properties(
         if not isinstance(meteorite, Meteorite):
             raise TypeError(f"At least one of the objects ({meteorite}) is not of the class Meteorite")
 
+    # Define the columns to be displayed
     columns = [
-            "name", "type", "coordinates", "latitude", "longitude", "fall_country", "weathering_g", "shock_stage",
-            "mag_sus", "fs_content", "wo_content", "fa_content", "tsm", "pieces", "type_spec_loc"
+            "name", "type", "mass", "pieces", "coordinates", "latitude", "longitude", "fall_country",
+            "weathering_g", "shock_stage", "mag_sus", "fa_content", "fs_content", "wo_content",  "tsm", "type_spec_loc"
             ]
 
     columns = [col for col in columns if col not in ommit]
