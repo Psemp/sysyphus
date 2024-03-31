@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import requests
 
 
 def search_by_name(df, name_query, numeric_range: int | list = None):
@@ -88,8 +89,12 @@ def validate_numeric_range(num_range: str) -> tuple:
 
 def validate_country(country: str, validation_file: str) -> tuple:
     """Checks if country is valid, returning the country and an error message, if relevant."""
-    with open(file=validation_file, mode="r") as file:
-        countries = json.load(file)
+    try:
+        with open(file=validation_file, mode="r") as file:
+            countries = json.load(file)
+    except FileNotFoundError:
+        country_url = "https://raw.githubusercontent.com/Psemp/sysyphus/main/sysyphus/utils/country_validation.json"
+        countries = requests.get(country_url).json()
 
     country = country.lower().strip()
     if len(country) > 0:
@@ -104,12 +109,16 @@ def validate_country(country: str, validation_file: str) -> tuple:
 
 def validate_mtype(mtype: str, validation_file: str) -> tuple:
     """Checks if meteorite type is valid, returning the mtype and an error message, if relevant."""
-    with open(file=validation_file, mode="r") as file:
-        countries = json.load(file)
+    try:
+        with open(file=validation_file, mode="r") as file:
+            types = json.load(file)
+    except FileNotFoundError:
+        type_url = "https://raw.githubusercontent.com/Psemp/sysyphus/main/sysyphus/utils/type_validation.json"
+        types = requests.get(type_url).json()
 
     mtype = mtype.lower().strip()
     if len(mtype) > 0:
-        if mtype.lower() in countries:
+        if mtype.lower() in types:
             return mtype.lower(), None
         else:
             return None, "mtype not found in the list of types. Check entire lists utils"
