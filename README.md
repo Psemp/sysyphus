@@ -99,7 +99,7 @@ boulder.save_search(filepath=file_name, file_format=format)
 ```
 
 ## Advanced Features
-*Cf. Notebook that i'll try not to forget and link here*
+[Example notebook link](https://github.com/Psemp/sysyphus/blob/main/notebooks/sysyphus_examples.ipynb)
 
 ## Credits
 

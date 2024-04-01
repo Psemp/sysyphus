@@ -93,6 +93,7 @@ def validate_country(country: str, validation_file: str) -> tuple:
         with open(file=validation_file, mode="r") as file:
             countries = json.load(file)
     except FileNotFoundError:
+        print("File not found, fetching from GH.")
         country_url = "https://raw.githubusercontent.com/Psemp/sysyphus/main/sysyphus/utils/country_validation.json"
         countries = requests.get(country_url).json()
 
@@ -113,6 +114,7 @@ def validate_mtype(mtype: str, validation_file: str) -> tuple:
         with open(file=validation_file, mode="r") as file:
             types = json.load(file)
     except FileNotFoundError:
+        print("File not found, fetching from GH.")
         type_url = "https://raw.githubusercontent.com/Psemp/sysyphus/main/sysyphus/utils/type_validation.json"
         types = requests.get(type_url).json()
 
@@ -144,10 +146,10 @@ def get_prompt(prompt_message: str, validation_function: callable = None) -> str
             return None
         if validation_function:
             if validation_function == validate_country:
-                validation_file = "sysyphus/utils/country_validation.json"
+                validation_file = "../utils/country_validation.json"
                 validation_result, error_message = validation_function(user_input, validation_file)
             elif validation_function == validate_mtype:
-                validation_file = "sysyphus/utils/type_validation.json"
+                validation_file = "../utils/type_validation.json"
                 validation_result, error_message = validation_function(user_input, validation_file)
             else:
                 validation_result, error_message = validation_function(user_input)
