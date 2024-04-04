@@ -82,3 +82,23 @@ def remove_uncertainty(to_process: str) -> float:
         return float(value.strip())
     else:
         return np.nan
+
+
+def handle_mass(mass):
+    """Handles mass : assume convert kg to g, handles non specified as g, returns a float"""
+
+    if isinstance(mass, str):
+        numeric_value = re.sub(r'[^\d.]', '', mass)
+
+        if 'kg' in mass.lower():
+            # Convert to grams if "kg" is in the string
+            return float(numeric_value) * 1000
+        elif 'g' in mass.lower() or numeric_value == '':
+            # Return as is if "g" is in the string or if no unit is specified
+            return float(numeric_value) if numeric_value else 0
+        else:
+            # Assume grams if no unit is specified
+            return float(numeric_value)
+
+    else:
+        return np.nan

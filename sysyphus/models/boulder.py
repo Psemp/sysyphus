@@ -5,6 +5,7 @@ import warnings
 
 from sysyphus.scripts import remote_load, search, rendering
 from sysyphus.scripts import user_requests as u_requests
+from sysyphus.scripts.preprocessing import handle_mass
 
 
 class Boulder:
@@ -184,6 +185,7 @@ class Boulder:
 
         if hasattr(self, "met_list") and self.made_requests:
             self.df_searched = rendering.show_properties(meteorite_list=self.met_list, as_pd=as_pandas, ommit=ommit)
+            self.df_searched["mass"] = self.df_searched["mass"].apply(handle_mass)
             try:
                 self.df_searched["mass"] = self.df_searched["mass"].astype(np.float32)
             except AttributeError:
